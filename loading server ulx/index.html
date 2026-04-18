@@ -1,0 +1,306 @@
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        /* 🖼 BACKGROUND */
+        .bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+
+            background: url("background.jpg") center center no-repeat;
+            background-size: cover;
+
+            transform: scale(1.1);
+            filter: blur(8px) brightness(0.35);
+
+            z-index: -3;
+        }
+
+        /* 🌑 OVERLAY */
+        .overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,0.95),
+                rgba(0,0,0,0.4),
+                rgba(0,0,0,0.2)
+            );
+        }
+
+        /* ✨ PARTICLES */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particles::before,
+        .particles::after {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+
+            background-image: radial-gradient(
+                rgba(255,255,255,0.25) 1px,
+                transparent 1px
+            );
+
+            background-size: 60px 60px;
+
+            animation: float 25s linear infinite;
+            opacity: 0.12;
+        }
+
+        .particles::after {
+            animation-duration: 40s;
+            opacity: 0.06;
+        }
+
+        @keyframes float {
+            from { transform: translate(0,0); }
+            to { transform: translate(-120px,-200px); }
+        }
+
+        /* 🧿 LOGO */
+        .logo {
+            margin-top: 80px;
+            width: 160px;
+
+            filter: drop-shadow(0 0 25px rgba(120,81,169,0.7));
+        }
+
+        h1 {
+            color: rgb(120,81,169);
+
+            text-shadow:
+                0 0 10px rgba(120,81,169,0.8),
+                0 0 25px rgba(120,81,169,0.5),
+                0 0 60px rgba(120,81,169,0.3);
+        }
+
+        /* 📦 BOX */
+        .box {
+            margin-top: 30px;
+            display: inline-block;
+
+            padding: 20px 30px;
+
+            border: 1px solid rgba(120,81,169,0.6);
+            border-radius: 12px;
+
+            background: rgba(0,0,0,0.5);
+
+            box-shadow:
+                0 0 20px rgba(120,81,169,0.25),
+                0 0 60px rgba(120,81,169,0.15);
+        }
+
+        a {
+            color: rgb(212,175,55);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* 🎬 YOUTUBE BUTTON */
+        .yt-btn {
+            padding: 10px 15px;
+
+            background: #FF0000;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            cursor: pointer;
+            font-weight: bold;
+
+            box-shadow: 0 0 15px rgba(255,0,0,0.4);
+        }
+
+        .yt-btn:hover {
+            background: #cc0000;
+        }
+
+        /* 🔊 MUTE BUTTON */
+        #music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+
+            padding: 10px 15px;
+
+            background: rgba(120,81,169,0.85);
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            cursor: pointer;
+            font-weight: bold;
+
+            box-shadow: 0 0 15px rgba(120,81,169,0.4);
+        }
+
+        #music-btn:hover {
+            background: rgba(212,175,55,0.9);
+            color: black;
+        }
+
+        /* 🖤 ENTER SCREEN */
+        #enter-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+
+            background: rgba(0,0,0,0.95);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 999;
+
+            cursor: pointer;
+        }
+
+        #enter-screen h1 {
+            color: rgb(120,81,169);
+            text-shadow: 0 0 25px rgba(120,81,169,0.8);
+        }
+
+        #enter-screen p {
+            opacity: 0.7;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- 🖼 BACKGROUND -->
+<div class="bg"></div>
+
+<!-- 🌑 OVERLAY -->
+<div class="overlay"></div>
+
+<!-- ✨ PARTICLES -->
+<div class="particles"></div>
+
+<!-- 🎵 MUSIC -->
+<audio id="bg-music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🔊 WHOOSH -->
+<audio id="whoosh">
+    <source src="whoosh.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🖤 ENTER SCREEN -->
+<div id="enter-screen">
+    <h1>CLICK TO ENTER SERVER</h1>
+    <p>Enable sound & continue loading</p>
+</div>
+
+<!-- 🧿 CONTENT -->
+<center>
+    <img class="logo" src="logo.png">
+    <h1>СЕРВАК САНИ(●'◡'●)</h1>
+
+    <div class="box">
+        <p>СОЗДАТЕЛЬ СЕРВЕРА - ХУЕСОС</p>
+        <p>Приятной игры c писюном 🎮</p>
+
+        <p>
+            ВИДЕО СИСЯСТЫЙ ФЕМБОЙ ЛИЖЕТ ПЯТОЧКИ МАЛЕНЬКОМУ МАЛЬЧИКУ 4k 120FPS:
+            <br><br>
+
+            <a href="https://www.youtube.com/watch?v=urBBQOxGDPk" target="_blank">
+                <button class="yt-btn">▶СМОТРЕТЬ БЕСПЛАТНО</button>
+            </a>
+        </p>
+
+        <p>
+            Discord Создателя:
+            <a href="https://discord.com/channels/@fleshbacked" target="_blank">Присоединиться</a>
+        </p>
+    </div>
+</center>
+
+<!-- 🔊 BUTTON -->
+<button id="music-btn">🔊 Mute</button>
+
+<!-- ⚙️ SCRIPT -->
+<script>
+
+const music = document.getElementById("bg-music");
+const whoosh = document.getElementById("whoosh");
+const enter = document.getElementById("enter-screen");
+const btn = document.getElementById("music-btn");
+
+let muted = false;
+
+/* 🖤 ENTER */
+enter.addEventListener("click", function () {
+
+    enter.style.opacity = "0";
+    enter.style.transition = "1s";
+
+    setTimeout(() => {
+        enter.style.display = "none";
+    }, 1000);
+
+    /* 🔊 WHOOSH */
+    if (whoosh) {
+        whoosh.volume = 0.6;
+        whoosh.play().catch(() => {});
+    }
+
+    /* 🎵 MUSIC FADE IN */
+    music.volume = 0;
+    music.play().catch(() => {});
+
+    let v = 0;
+    const fade = setInterval(() => {
+        if (v < 0.5) {
+            v += 0.02;
+            music.volume = v;
+        } else {
+            clearInterval(fade);
+        }
+    }, 100);
+
+});
+
+/* 🔊 MUTE */
+btn.addEventListener("click", function() {
+    if (!muted) {
+        music.muted = true;
+        btn.innerHTML = "🔇 Unmute";
+        muted = true;
+    } else {
+        music.muted = false;
+        btn.innerHTML = "🔊 Mute";
+        muted = false;
+    }
+});
+
+</script>
+
+</body>
+</html>
