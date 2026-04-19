@@ -157,13 +157,6 @@ a {
     box-shadow: 0 0 15px rgba(120,81,169,0.4);
 
     z-index: 9999;
-
-    pointer-events: auto;
-}
-
-#music-btn:hover {
-    background: rgba(212,175,55,0.9);
-    color: black;
 }
 
 /* ✨ FADE */
@@ -172,9 +165,23 @@ a {
     to { opacity: 1; }
 }
 
+/* 💥 GMOD FIX — КЛИКИ РАБОТАЮТ ВСЕГДА */
+.bg,
+.overlay,
+.particles,
+.particles::before,
+.particles::after {
+    pointer-events: none !important;
+}
+
 center {
     position: relative;
     z-index: 10;
+    pointer-events: auto;
+}
+
+button, a {
+    pointer-events: auto !important;
 }
 
 </style>
@@ -228,7 +235,7 @@ const btn = document.getElementById("music-btn");
 let muted = false;
 let started = false;
 
-/* 🔊 автопопытка запуска */
+/* 🔊 автозапуск музыки */
 function tryAutoPlay() {
     if (started) return;
     started = true;
@@ -236,18 +243,17 @@ function tryAutoPlay() {
     music.volume = 0.3;
 
     music.play().catch(() => {
-        console.log("Autoplay blocked in GMod/browser");
+        console.log("Autoplay blocked in GMod");
         started = false;
     });
 }
 
-/* 🚀 авто старт */
+/* 🚀 попытка сразу */
 window.addEventListener("load", tryAutoPlay);
 
-/* 🚀 fallback триггеры */
+/* 🚀 fallback */
 document.addEventListener("click", tryAutoPlay);
 document.addEventListener("mousemove", tryAutoPlay);
-document.addEventListener("keydown", tryAutoPlay);
 
 /* 🔊 кнопка */
 btn.addEventListener("click", function() {
@@ -260,6 +266,11 @@ btn.addEventListener("click", function() {
     }
 
     btn.innerHTML = muted ? "🔇 Unmute" : "🔊 Mute";
+});
+
+/* 💥 GMOD extra fix */
+window.addEventListener("load", () => {
+    document.body.style.pointerEvents = "auto";
 });
 
 </script>
