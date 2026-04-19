@@ -1,7 +1,7 @@
 <html>
 <head>
 <style>
- 
+
 body {
     margin: 0;
     overflow: hidden;
@@ -23,6 +23,8 @@ body {
     filter: blur(8px) brightness(0.35);
 
     z-index: -3;
+
+    pointer-events: none;
 }
 
 /* 🌑 OVERLAY */
@@ -38,6 +40,8 @@ body {
         rgba(0,0,0,0.4),
         rgba(0,0,0,0.2)
     );
+
+    pointer-events: none;
 }
 
 /* ✨ PARTICLES */
@@ -151,6 +155,10 @@ a {
     font-weight: bold;
 
     box-shadow: 0 0 15px rgba(120,81,169,0.4);
+
+    z-index: 9999;
+
+    pointer-events: auto;
 }
 
 #music-btn:hover {
@@ -162,6 +170,11 @@ a {
 @keyframes fadeBody {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+center {
+    position: relative;
+    z-index: 10;
 }
 
 </style>
@@ -210,40 +223,42 @@ a {
 <script>
 
 const music = document.getElementById("bg-music");
-const whoosh = document.getElementById("whoosh");
 const btn = document.getElementById("music-btn");
 
 let muted = false;
+let started = false;
 
-/* 🎬 запуск по первому клику (обходит блокировку браузера/GMod) */
-document.addEventListener("click", function startAudio() {
+/* 🔊 автопопытка запуска */
+function tryAutoPlay() {
+    if (started) return;
+    started = true;
 
-    music.volume = 0;
-    music.play().catch(()=>{});
+    music.volume = 0.3;
 
-    if (whoosh) {
-        whoosh.volume = 0.6;
-        whoosh.play().catch(()=>{});
-    }
+    music.play().catch(() => {
+        console.log("Autoplay blocked in GMod/browser");
+        started = false;
+    });
+}
 
-    let v = 0;
-    const fade = setInterval(() => {
-        if (v < 0.5) {
-            v += 0.02;
-            music.volume = v;
-        } else {
-            clearInterval(fade);
-        }
-    }, 100);
+/* 🚀 авто старт */
+window.addEventListener("load", tryAutoPlay);
 
-    document.removeEventListener("click", startAudio);
+/* 🚀 fallback триггеры */
+document.addEventListener("click", tryAutoPlay);
+document.addEventListener("mousemove", tryAutoPlay);
+document.addEventListener("keydown", tryAutoPlay);
 
-});
-
-/* 🔊 MUTE */
+/* 🔊 кнопка */
 btn.addEventListener("click", function() {
+
     muted = !muted;
     music.muted = muted;
+
+    if (!muted) {
+        music.play().catch(()=>{});
+    }
+
     btn.innerHTML = muted ? "🔇 Unmute" : "🔊 Mute";
 });
 
