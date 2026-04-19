@@ -160,33 +160,6 @@
             color: black;
         }
 
-        /* 🖤 ENTER SCREEN */
-        #enter-screen {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-
-            background: rgba(0,0,0,0.95);
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            z-index: 999;
-
-            cursor: pointer;
-        }
-
-        #enter-screen h1 {
-            color: rgb(120,81,169);
-            text-shadow: 0 0 25px rgba(120,81,169,0.8);
-        }
-
-        #enter-screen p {
-            opacity: 0.7;
-        }
-
     </style>
 </head>
 
@@ -211,19 +184,13 @@
     <source src="whoosh.mp3" type="audio/mpeg">
 </audio>
 
-<!-- 🖤 ENTER SCREEN -->
-<div id="enter-screen">
-    <h1>CLICK TO ENTER SERVER</h1>
-    <p>Enable sound & continue loading</p>
-</div>
-
 <!-- 🧿 CONTENT -->
 <center>
     <img class="logo" src="logo.png">
     <h1>СЕРВАК САНИ(●'◡'●)</h1>
 
     <div class="box">
-        <p>СОЗДАТЕЛЬ СЕРВЕРА - ХУЕСОС</p>
+        <p>Хз че сказатьヾ(•ω•`)o</p>
         <p>Приятной игры c писюном 🎮</p>
 
         <p>
@@ -250,20 +217,9 @@
 
 const music = document.getElementById("bg-music");
 const whoosh = document.getElementById("whoosh");
-const enter = document.getElementById("enter-screen");
 const btn = document.getElementById("music-btn");
 
 let muted = false;
-
-/* 🖤 ENTER */
-enter.addEventListener("click", function () {
-
-    enter.style.opacity = "0";
-    enter.style.transition = "1s";
-
-    setTimeout(() => {
-        enter.style.display = "none";
-    }, 1000);
 
     /* 🔊 WHOOSH */
     if (whoosh) {
