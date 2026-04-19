@@ -7,8 +7,6 @@ body {
     overflow: hidden;
     font-family: Arial, sans-serif;
     color: white;
-
-    animation: fadeBody 1.5s ease;
 }
 
 /* 🌌 BACKGROUND */
@@ -18,12 +16,8 @@ body {
     height: 100%;
     background: url("background.jpg") center center no-repeat;
     background-size: cover;
-
-    transform: scale(1.1);
     filter: blur(8px) brightness(0.35);
-
-    z-index: -3;
-
+    z-index: 0;
     pointer-events: none;
 }
 
@@ -32,15 +26,13 @@ body {
     position: fixed;
     width: 100%;
     height: 100%;
-    z-index: -2;
-
+    z-index: 1;
     background: linear-gradient(
         to top,
         rgba(0,0,0,0.95),
         rgba(0,0,0,0.4),
         rgba(0,0,0,0.2)
     );
-
     pointer-events: none;
 }
 
@@ -49,39 +41,21 @@ body {
     position: fixed;
     width: 100%;
     height: 100%;
+    z-index: 2;
     pointer-events: none;
-    z-index: 0;
 }
 
-.particles::before,
-.particles::after {
-    content: "";
+/* 🧿 UI LAYER (ВАЖНО ДЛЯ GMOD) */
+.ui {
     position: absolute;
-    width: 200%;
-    height: 200%;
-
-    background-image: radial-gradient(
-        rgba(255,255,255,0.25) 1px,
-        transparent 1px
-    );
-
-    background-size: 60px 60px;
-
-    animation: float 25s linear infinite;
-    opacity: 0.12;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    pointer-events: auto;
+    text-align: center;
 }
 
-.particles::after {
-    animation-duration: 40s;
-    opacity: 0.06;
-}
-
-@keyframes float {
-    from { transform: translate(0,0); }
-    to { transform: translate(-120px,-200px); }
-}
-
-/* 🧿 LOGO */
+/* LOGO */
 .logo {
     margin-top: 80px;
     width: 160px;
@@ -90,98 +64,38 @@ body {
 
 h1 {
     color: rgb(120,81,169);
-    text-shadow:
-        0 0 10px rgba(120,81,169,0.8),
-        0 0 25px rgba(120,81,169,0.5),
-        0 0 60px rgba(120,81,169,0.3);
 }
 
-/* 📦 BOX */
+/* BOX */
 .box {
     margin-top: 30px;
     display: inline-block;
-
     padding: 20px 30px;
-
     border: 1px solid rgba(120,81,169,0.6);
     border-radius: 12px;
-
     background: rgba(0,0,0,0.5);
-
-    box-shadow:
-        0 0 20px rgba(120,81,169,0.25),
-        0 0 60px rgba(120,81,169,0.15);
-
-    backdrop-filter: blur(6px);
 }
 
-a {
-    color: rgb(212,175,55);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* 🎬 YOUTUBE BUTTON */
+/* BUTTONS */
 .yt-btn {
     padding: 10px 15px;
-    background: #FF0000;
+    background: red;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 0 15px rgba(255,0,0,0.4);
 }
 
-.yt-btn:hover {
-    background: #cc0000;
-}
-
-/* 🔊 MUTE BUTTON */
 #music-btn {
     position: fixed;
     bottom: 20px;
     right: 20px;
-
     padding: 10px 15px;
-
-    background: rgba(120,81,169,0.85);
+    background: purple;
     color: white;
-
     border: none;
     border-radius: 8px;
-
-    cursor: pointer;
-    font-weight: bold;
-
-    box-shadow: 0 0 15px rgba(120,81,169,0.4);
-
-    z-index: 9999;
-}
-
-/* ✨ FADE */
-@keyframes fadeBody {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* 💥 GMOD FIX — КЛИКИ РАБОТАЮТ ВСЕГДА */
-.bg,
-.overlay,
-.particles,
-.particles::before,
-.particles::after {
-    pointer-events: none !important;
-}
-
-center {
-    position: relative;
-    z-index: 10;
-    pointer-events: auto;
-}
-
-button, a {
-    pointer-events: auto !important;
+    z-index: 1000;
 }
 
 </style>
@@ -193,19 +107,14 @@ button, a {
 <div class="overlay"></div>
 <div class="particles"></div>
 
-<audio id="bg-music" loop>
-    <source src="music.mp3" type="audio/mpeg">
-</audio>
+<div class="ui">
 
-<audio id="whoosh">
-    <source src="whoosh.mp3" type="audio/mpeg">
-</audio>
-
-<center>
     <img class="logo" src="logo.png">
+
     <h1>СЕРВАК САНИ(●'◡'●)</h1>
 
     <div class="box">
+
         <p>Хз че сказатьヾ(•ω•`)o </p>
         <p>Приятной игры c писюном 🎮</p>
 
@@ -222,10 +131,16 @@ button, a {
             Discord Создателя:
             <a href="https://discord.com/channels/@fleshbacked">Присоединиться</a>
         </p>
+
     </div>
-</center>
+
+</div>
 
 <button id="music-btn">🔊 Mute</button>
+
+<audio id="bg-music" loop>
+    <source src="music.mp3">
+</audio>
 
 <script>
 
@@ -235,28 +150,27 @@ const btn = document.getElementById("music-btn");
 let muted = false;
 let started = false;
 
-/* 🔊 автозапуск музыки */
-function tryAutoPlay() {
+/* 💥 GMOD SAFE AUTOPLAY */
+function startMusic() {
     if (started) return;
     started = true;
 
     music.volume = 0.3;
 
     music.play().catch(() => {
-        console.log("Autoplay blocked in GMod");
         started = false;
     });
 }
 
-/* 🚀 попытка сразу */
-window.addEventListener("load", tryAutoPlay);
+/* старт */
+window.addEventListener("load", startMusic);
 
-/* 🚀 fallback */
-document.addEventListener("click", tryAutoPlay);
-document.addEventListener("mousemove", tryAutoPlay);
+/* fallback */
+document.addEventListener("click", startMusic);
+document.addEventListener("mousemove", startMusic);
 
-/* 🔊 кнопка */
-btn.addEventListener("click", function() {
+/* кнопка */
+btn.addEventListener("click", function () {
 
     muted = !muted;
     music.muted = muted;
@@ -266,11 +180,6 @@ btn.addEventListener("click", function() {
     }
 
     btn.innerHTML = muted ? "🔇 Unmute" : "🔊 Mute";
-});
-
-/* 💥 GMOD extra fix */
-window.addEventListener("load", () => {
-    document.body.style.pointerEvents = "auto";
 });
 
 </script>
